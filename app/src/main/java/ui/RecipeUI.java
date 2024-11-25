@@ -37,11 +37,11 @@ public class RecipeUI {
                 switch (choice) {
                     case "1":
                         // 設問1: 一覧表示機能
-                        System.out.println("Recipes" + fileHandler);
+                        displayRecipes();
                         break;
                     case "2":
                         // 設問2: 新規登録機能
-                        System.out.println("Add New Recipes: ");
+                        addNewRecipe();
                         break;
                     case "3":
                         // 設問3: 検索機能
@@ -67,13 +67,31 @@ public class RecipeUI {
      */
     private void displayRecipes() {
         try {
-            ArrayList<String> list = fileHandler.readRecipes();
-            System.out.println(list);
+            ArrayList<String> recipList = fileHandler.readRecipes();
+            if (recipList != null) {
+                System.out.println("Recipes: ");
+                System.out.println("--------------------");
+
+                for (String recipLists : recipList) {
+                    //最初のカンマで2分割
+                    String[] recipe = recipLists.split(",", 2);
+                    
+                    // レシピ名の表示
+                    System.out.println("Recipe Name: " + recipe[0]);
+                    
+                    //配列の長さが2であれば、材料を表示
+                    if (recipe.length == 2) {
+                        System.out.println("Main Ingredients: " + recipe[1]);
+                        System.out.println("--------------------");
+                    }
+                }
+            } else {
+                System.out.println("No recipes available.");
+            }
         } catch (Exception e){
-            System.out.println("No recipes available.");
             e.printStackTrace();
-        }
-        
+    }
+    System.out.println("Recipe added successfully.");
     }
 
     /**
@@ -83,7 +101,22 @@ public class RecipeUI {
      * @throws java.io.IOException 入出力が受け付けられない
      */
     private void addNewRecipe() throws IOException {
+        try {
+            //ユーザーからレシピの名前を入力させる
+            System.out.println("Enter recipe name: ");
+            String recipeName = reader.readLine();
 
+            //ユーザーから材料の入力をさせる
+            System.out.println("Enter main ingredients (comma separated): ");
+            String ingredients = reader.readLine();
+
+            //データクラスからaddRecipeメソッドを呼び出し
+            fileHandler.addRecipe(recipeName, ingredients);
+        
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Recipe added successfully.");
     }
 
     /**

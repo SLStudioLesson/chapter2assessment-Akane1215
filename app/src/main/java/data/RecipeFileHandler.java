@@ -27,16 +27,20 @@ public class RecipeFileHandler {
      */
     public ArrayList<String> readRecipes() {
         //ファイル内容の読み込み、出力
+        //ArrayListでレシピデータをリスト化
+        ArrayList<String> recipes = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                //レシピのリストを追加
+                recipes.add(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error reading file:" + e.getMessage());
         }
-        return null;
+        //読み込んだデータを返す
+        return recipes;
     }
 
     /**
@@ -52,12 +56,12 @@ public class RecipeFileHandler {
         //Arraylistで新しいレシピの追加
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(recipeName);
-    //     // try (BufferedWriter.writer = new BufferedWriter(new FileWriter(filePath, true))) {
-    //     //     writer.write();
-    //     //     writer.newLine();
-    //     } catch (IOException e) {
-    //         System.out.println("Error reading file: " + e.getMessage());
-    //     }
-    //     System.out.println("Recipe added successfully.");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.write(recipeName + ingredients);
+            writer.newLine();
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
     }
 }
