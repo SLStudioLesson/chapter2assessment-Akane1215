@@ -37,12 +37,15 @@ public class RecipeUI {
                 switch (choice) {
                     case "1":
                         // 設問1: 一覧表示機能
+                        System.out.println("Recipes" + fileHandler);
                         break;
                     case "2":
                         // 設問2: 新規登録機能
+                        System.out.println("Add New Recipes: ");
                         break;
                     case "3":
                         // 設問3: 検索機能
+                        System.out.println("Search Recipe");
                         break;
                     case "4":
                         System.out.println("Exit the application.");
@@ -53,6 +56,7 @@ public class RecipeUI {
                 }
             } catch (IOException e) {
                 System.out.println("Error reading input from user: " + e.getMessage());
+                e.printStackTrace();
             }
         }
     }
@@ -62,7 +66,14 @@ public class RecipeUI {
      * RecipeFileHandlerから読み込んだレシピデータを整形してコンソールに表示します。
      */
     private void displayRecipes() {
-
+        try {
+            ArrayList<String> list = fileHandler.readRecipes();
+            System.out.println(list);
+        } catch (Exception e){
+            System.out.println("No recipes available.");
+            e.printStackTrace();
+        }
+        
     }
 
     /**
