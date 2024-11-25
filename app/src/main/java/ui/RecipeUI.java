@@ -91,7 +91,6 @@ public class RecipeUI {
         } catch (Exception e){
             e.printStackTrace();
     }
-    System.out.println("Recipe added successfully.");
     }
 
     /**
